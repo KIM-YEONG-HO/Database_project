@@ -49,19 +49,34 @@ public interface Combination {
 	 존재할 시 :조건에 맞는 테이블 정보를 추출할 수 있는 SQL문 전달
 	 존재하지 않을 시 : 문자열 "error" 전달
 	 */
-	
-	public void SingleJoinTable(String targettname, String skey);
+	public boolean insertResultTable(String targetname, String skey);
 	/*
 	 NOTE : FindSameTable()을 통해 보여준 테이블 목록에서 결합 버튼을 클릭한 테이블을 showSource를 통해
-	 		보여준 테이블과 실제 DB내 결합 진행
+	 		보여준 테이블과 결합할 때 결합 결과 예시를 보여줌
 	 CDOE : 1) target table의 동일한 skey를 가진 column name을 sql문을 통해 찾는다
-	 		2) 결합결과를 띄운다.
-	 		3) target table의 table name, column name을 이용하여 Source table과 Join한다.
+	 		2) 결합결과 테이블에 적절한 값을 집어넣는다
+	 	
+	 FRONT에서 전달받은 값 : 선택한 target 테이블명, 대표 결합키
 	 */
-	public void downloadcsv(String address);
+	public void SingleJoin();
+	/*
+	 NOTE : insertResultTable후 실제 db내에서 결합을 진행한다.
+	 CDOE : target table의 table name, column name을 이용하여 Source table과 Join한다.
+	 */
+	public boolean updateResult();
+	/*
+	 NOTE : SingleJoin이 완료됐다면 결합결과 테이블의 내용을 update한다.
+	 CDOE : join이 완료되면 결합결과 table의 결과 레코드수, W1, W2, 결합 진행상황 값 변경
+	 */
+	public String showResult();
+	/*
+	 NOTE : 결합결과 table에서 source테이블명, target테이블명, 대표결합키를 Key로 가지는 record를 보여준다.
+	 RETURN : 결합결과 table에서 주어진 변수들을 key로 가지는 record 추출 SQL문 전달
+	 */
+	public void downloadcsv(String address, String filename);
 	/*
 	 NOTE : SingleJoinTable이 완료된 후 실행되며 csv 다운로드 버튼을 누를 시 상대방이 지정한 위치로 join 결과를 다운로드 할 수 있게 한다.
-	 CDOE : 1) 입력받은 address를 이용해 join결과를 csv export 		 		
+	 CDOE : 1) 입력받은 address과 filename을 이용해 join결과를 csv export 		 		
 	 */	
 	
 }

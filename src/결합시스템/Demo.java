@@ -5,16 +5,16 @@ import java.sql.SQLException;
 
 public class Demo {
 	static SingleCombination demo = new SingleCombination();
+	static MultiCombination demo1 = new MultiCombination();
+	static SelectResultTable demo2 = new SelectResultTable();
 	static DBcon democon = new DBcon();
 	static Scanner sc = new Scanner(System.in);
 	static String result = "";
 	public static void main(String[] args){
-		
-		
 		System.out.println("-----------------선택가능 테이블 목록----------------");
 		System.out.println("테이블명  |     레코드 수   |  대표속성  |   대표 결합키     ");
 		System.out.println("--------------------------------------------------");
-		result = demo.showTable();
+		result = demo1.showTable();
 		try {
 			democon.st=democon.con.createStatement();
 			democon.rs = democon.st.executeQuery(result);
@@ -36,13 +36,45 @@ public class Demo {
 			System.exit(0);
 		}
 		/*
-		demoSearchColumnName();
-		demoSearchSKey();
+		단일 결합/다중결합 test
+		
+		demoSearchColumnName(); 테스트 완료
+		demoSearchSKey(); 테스트 완료
 		*/
+		
+		/*
+		demoshowSource(); 테스트 완료
+		demoFindSameTable(); 테스트 완료
+		
+		System.out.println(demo.insertResultTable("건강정보", "전화번호")); 테스트 완료
+		demoshowResult(); 테스트 완료
+		demo.SingleJoin(); 테스트 완료
+		System.out.println(demo.updateResult()); 테스트 완료
+		demoshowResult(); 테스트 완료
+		-> 동적으로 돌리기위해선??
+		
+		demo.downloadcsv("/Users/a05/Desktop", "결합저장이요"); 테스트 완료
+		
+		
 		demoshowSource();
-		demoFindSameTable();		
+		demoFindSameTable();
+		
+		demo1.addJoinList("건강정보", "전화번호");
+		demo1.MultiJoin();
+		*/
+		
+		demoshowScannedTable();
+		/*
+		System.out.println(demo2.showCategory("건강정보")); 
+		System.out.println(demo2.showNumeric("건강정보"));
+		*/
+		
+		demo2.multiResultcsv("/Users/a05/Desktop", "다중결합결과예시");
 		
 	}
+
+
+		
 	public static void demoSearchTableName() {
 		System.out.println("");
 		System.out.println("");
@@ -172,7 +204,7 @@ public class Demo {
 		String tn = sc.next();
 		System.out.println("대표결합키 : ");
 		String sk = sc.next();
-		result = demo.showSource(tn, sk);
+		result = demo1.showSource(tn, sk);
 		try {
 			democon = new DBcon();
 			democon.st=democon.con.createStatement();
@@ -197,10 +229,34 @@ public class Demo {
 			System.out.println(s.getMessage());
 		}
 	}
+	public static void demoshowScannedTable() {
+		System.out.println("");
+		System.out.println("");
+		result = demo2.showScannedTable();
+		try {
+			democon = new DBcon();
+			democon.st=democon.con.createStatement();
+			democon.rs = democon.st.executeQuery(result);
+			System.out.println("-----------------선택가능 테이블 목록----------------");
+			System.out.println("테이블명  |     레코드 수   |  대표속성  |   대표 결합키     ");
+			System.out.println("--------------------------------------------------");
+			String temp;
+			while (democon.rs.next()) {
+				temp=democon.rs.getString(1);
+				System.out.printf(temp + "        ");
+				temp=democon.rs.getString(2);
+				System.out.printf(temp + "            ");
+			}
+			democon.DBdiscon();
+		}
+		catch (SQLException s) {
+			System.out.println(s.getMessage());
+		}
+	}
 	public static void demoFindSameTable() {
 		System.out.println("");
 		System.out.println("");
-		result = demo.FindSameTable();
+		result = demo1.FindSameTable();
 		try {
 			democon = new DBcon();
 			democon.st=democon.con.createStatement();
@@ -226,4 +282,29 @@ public class Demo {
 			System.out.println(s.getMessage());
 		}
 	}
+	public static void demoshowResult() {
+		System.out.println("");
+		System.out.println("");
+		result = demo1.showResult();
+		try {
+			democon = new DBcon();
+			democon.st=democon.con.createStatement();
+			democon.rs = democon.st.executeQuery(result);
+			System.out.println("----------결합  결과  예시----------");
+			String temp="";
+			while (democon.rs.next()) {
+				for(int i=1; i<12; i++) {
+					temp=democon.rs.getString(i);
+					System.out.printf(temp + "        ");
+				}
+				System.out.println(democon.rs.getString(12));
+				System.out.println("");
+			}
+			democon.DBdiscon();
+		}
+		catch (SQLException s) {
+			System.out.println(s.getMessage());
+		}
+	}
+
 }
