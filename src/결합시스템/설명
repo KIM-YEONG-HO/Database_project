@@ -1,0 +1,11 @@
+DBcon.java : 제가 사용한 test DB에 접속하는 DB connector (전체 test때 쓸 DB 만든 후 수정해야함)
+Combination.java : 단일 결합과 다중 결합에 사용하는 interface (method 개요)
+SingleCombination.java : 단일 결합 때 사용하는 class & method
+MultiCombination.java : 다중 결합 때 사용하는 class & method
+SelectResult.java : 결과 조회 때 사용하는 interface (method 개요)
+SelectResultTable.java : 결과 조회 때 사용하는 class & method
+Demo.java : 간단한 test때 썼던 main class
+
+결합시스템 package import해서 사용하면 될 듯 합니다.
+
+업데이트 : 2022.12.20.12:18
