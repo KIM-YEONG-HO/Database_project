@@ -154,5 +154,73 @@ public class SelectResultTable implements SelectResult{
 		}
 		
 	}
+	public String joinedWith(String tname) { //입력받은 테이블명과 결합한 테이블 결합결과를 모두 표시하는 SQL문 추출
+		String SQL = "SELECT * FROM 결합결과 WHERE 테이블A = \'" + tname + "\' OR 테이블B = \'" + tname + "\'";
+		con1 = new DBcon();
+		try{
+			con1.st = con1.con.createStatement();
+			con1.rs = con1.st.executeQuery(SQL);
+			if(!con1.rs.next()) {
+				throw new SQLException();
+			}
+			con1.DBdiscon();
+		}
+		catch (SQLException s){
+			System.out.println("조건에 맞는 결합결과가 존재하지 않습니다.");
+			System.exit(0);
+		}
+		return SQL;
+	}
+	public String threshold(double number) { //결합성공률이 입력받은 임계값(number) 이상인 결합성공률을 지닌 결합결과만 표시하는 SQL문 추출
+		String SQL = "SELECT * FROM 결합결과 WHERE 결합성공률W1 >= " + number + "OR 결합성공률W2 >= " + number;
+		con1 = new DBcon();
+		try{
+			con1.st = con1.con.createStatement();
+			con1.rs = con1.st.executeQuery(SQL);
+			if(!con1.rs.next()) {
+				throw new SQLException();
+			}
+			con1.DBdiscon();
+		}
+		catch (SQLException s){
+			System.out.println("조건에 맞는 결합결과가 존재하지 않습니다.");
+			System.exit(0);
+		}
+		return SQL;
+	}
+	public String tnameAndThreshod(String tname, double number) { //입력받은 테이블과 결합한 테이블 중 임계값 이상인 결합성공률을 지닌 결합결과만 표시하는 SQL문 추출
+		String SQL = "SELECT * FROM ("+ joinedWith(tname) + ") as temp WHERE temp.결합성공률W1 >= " + number + " OR temp.결합성공률W2 >= " + number;
+		con1 = new DBcon();
+		try{
+			con1.st = con1.con.createStatement();
+			con1.rs = con1.st.executeQuery(SQL);
+			if(!con1.rs.next()) {
+				throw new SQLException();
+			}
+			con1.DBdiscon();
+		}
+		catch (SQLException s){
+			System.out.println("조건에 맞는 결합결과가 존재하지 않습니다.");
+			System.exit(0);
+		}
+		return SQL;
+	}
+	public String minCombRecord(int minrecord) { //입력받은 최소 레코드 수보다 더 큰 결과레코드 수를 지닌 결합결과만 추출
+		String SQL = "SELECT * FROM 결합결과 WHERE 결과레코드수 > " + minrecord;
+		con1 = new DBcon();
+		try{
+			con1.st = con1.con.createStatement();
+			con1.rs = con1.st.executeQuery(SQL);
+			if(!con1.rs.next()) {
+				throw new SQLException();
+			}
+			con1.DBdiscon();
+		}
+		catch (SQLException s){
+			System.out.println("조건에 맞는 결합결과가 존재하지 않습니다.");
+			System.exit(0);
+		}
+		return SQL;
+	}
 
 }
