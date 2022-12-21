@@ -32,11 +32,11 @@ public class SingleCombination implements Combination{
 		String result = "";
 		String SQL = "CREATE OR REPLACE VIEW YouCanSelect AS " //View 생성
 					+ "SELECT a.name AS \'테이블명\', a.num_record AS \'레코드수\', "
-					+ "b.rcol AS \'대표속성\', b.skey AS \'대표결합키\' "
+					+ "b.대표속성', b.대표결합키 "
 				   	+"FROM table_info AS a, c_info AS b "
-				   	+"WHERE a.name = b.t_name AND " //두 테이블 조인한 후,
+				   	+"WHERE a.name = b.테이블명 AND " //두 테이블 조인한 후,
 				   	+"a.done =\'Y\' AND " //속성 도메인 스캔이 완료된 테이블만
-				   	+"b.skey != \'-\'"; //대표 결합키 결합이 완료된 테이블만
+				   	+"b.대표결합키 != \'-\'"; //대표 결합키 결합이 완료된 테이블만
 		try {
 			con1.st=con1.con.createStatement();
 			con1.rs = con1.st.executeQuery(SQL);
@@ -80,7 +80,7 @@ public class SingleCombination implements Combination{
 		return SQL;
 	}
 	public String SearchColumnName(String cname, String FromInnerQuery) {
-		String SQL = "SELECT DISTINCT t_name FROM c_info WHERE c_name LIKE \'%" + cname + "%\'";
+		String SQL = "SELECT DISTINCT 테이블명 FROM c_info WHERE 속성명 LIKE \'%" + cname + "%\'";
 		String result = "(";
 		con1 = new DBcon();
 		try {
@@ -169,7 +169,7 @@ public class SingleCombination implements Combination{
 	}
 	
 	public String showSource(String tname, String skey) {
-		String SQL = "SELECT c_name FROM c_info WHERE t_name = \'" + tname + "\' AND skey = \'" + skey + "\'";
+		String SQL = "SELECT c_name FROM c_info WHERE 테이블명 = \'" + tname + "\' AND 대표결합키 = \'" + skey + "\'";
 		con1 = new DBcon();
 		try {
 			con1.st=con1.con.createStatement();
@@ -221,8 +221,8 @@ public class SingleCombination implements Combination{
 		con1 = new DBcon();
 		String SQL = "SELECT c_name "
 				+"FROM c_info "
-				+"WHERE t_name = \'" + targettname + "\' AND "
-				+"skey = \'" + skey + "\'";
+				+"WHERE 테이블명 = \'" + targettname + "\' AND "
+				+"대표결합키 = \'" + skey + "\'";
 		try {
 			con1.st = con1.con.createStatement();
 			con1.rs = con1.st.executeQuery(SQL);

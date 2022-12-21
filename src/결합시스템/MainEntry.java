@@ -16,11 +16,12 @@ import java.util.regex.Pattern;
 
 
 public class MainEntry {
-	static String db_add ="jdbc:mariadb://localhost:3306/final_test" ;
-	static String db_name ="root";
-
-	static String db_pswd = "1q2w3e4r7&";
-	static String db_start="org.mariadb.jdbc.Driver";
+	
+	static String db_add = DBcon.db_add ;
+	static String db_name = DBcon.db_name;
+	static String db_pswd = DBcon.db_pswd;
+	static String db_start= DBcon.db_start;
+	
 	
 	public String showScanned() {
 		
@@ -42,7 +43,7 @@ public class MainEntry {
 		return SQL;
 	}
 	public String showNumeric(String tablename) {
-		String SQL = "SELECT ci.속성명, ci.데이터타입, ci.NULL레코드수, ci.NULL레코드비율, cn.상이수치값, cn.최대값, cn.최소값, cn.0레코드수, cn.0레코드비율, ci.대표속성, ci.결합키후보, ci.대표결합키"
+		String SQL = "SELECT ci.속성명, ci.데이터타입, ci.NULL레코드수, ci.NULL레코드비율, cn.상이수치값, cn.최대값, cn.최소값, cn.ZERO레코드수, cn.ZERO레코드비율, ci.대표속성, ci.결합키후보, ci.대표결합키"
 					+"FROM c_info as ci, c_numeric as cn"
 					+"WHERE ci.속성명 = cn.속성명 AND cn.테이블명 = \'" + tablename + "\'";
 		return SQL;
@@ -444,7 +445,7 @@ public class MainEntry {
     	String sql_c_info = "INSERT INTO c_info(테이블명, 속성명, 데이터타입, NULL레코드수, NULL레코드비율, 대표속성, 결합키후보, 대표결합키) VALUES (\'"
     						+TEMPn.get(12)+ "\', \'"+TEMPn.get(0)+"\', \'"+TEMPn.get(1)+"\', "+TEMPn.get(2)+", "+TEMPn.get(3)
     						+ ", " +TEMPn.get(9)+ ", \'"+TEMPn.get(10)+"\', "+TEMPn.get(11)+")";
-    	String sql_c_numeric = "INSERT INTO c_numeric(테이블명, 속성명, 상이수치값,최대값,최소값,0레코드수,0레코드비율) VALUES (\'"
+    	String sql_c_numeric = "INSERT INTO c_numeric(테이블명, 속성명, 상이수치값,최대값,최소값,ZERO레코드수,ZERO레코드비율) VALUES (\'"
     			+ TEMPn.get(12)+ "\', \'"+TEMPn.get(0)+"\', " + TEMPn.get(4)+", "+TEMPn.get(5)+", "+TEMPn.get(6)+", "+TEMPn.get(7)+", "+TEMPn.get(8)+")";
     	
     	/*
@@ -645,11 +646,11 @@ return result;
     tablescan();
     mainscan(db_scanned);
     
-    
+    /*
     System.out.println(dictionaryshow("standard_dictionary"));
     
     mapping("전화번호", "TEL_NUM",true);
-    /*
+    
     System.out.println(showtable(db_start,db_add,db_name,db_pswd));
     delete(db_start,db_add,db_name,db_pswd,"literals","INPUT_GBN");
     */

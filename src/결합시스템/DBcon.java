@@ -7,20 +7,24 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DBcon {
-    String driver = "org.mariadb.jdbc.Driver";
+  
     Connection con;
     ResultSet rs;
     Statement st;
+    static String db_add ="jdbc:mariadb://localhost:3306/DB" ;
+    static String db_name ="root";
+    static String db_pswd ="1111";
+    static String db_start="org.mariadb.jdbc.Driver";
 
 
     public DBcon() {
     	try {
 
-            Class.forName(driver);
+            Class.forName(db_start);
             con = DriverManager.getConnection(
-                    "jdbc:mariadb://127.0.0.1:3306/project_test",
-                    "a05",
-                    "1q2w3e4r7&");
+                    db_add,
+                    db_name,
+                    db_pswd);
             
             /*
             if( con != null ) {

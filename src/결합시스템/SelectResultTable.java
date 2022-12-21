@@ -12,33 +12,25 @@ public class SelectResultTable implements SelectResult{
 	}
 
 
-	public String showNumeric(String tname) {
-		this.tname = tname;
-		String SQL = "SELECT ci.c_name AS 속성명, ci.datatype AS 데이터타입, ci.num_null AS NULL레코드수, ci.p_null AS NULL레코드비율, "
-				   + "cn.distinct_numeric AS 상이수치값, cn.max_value AS 최대값, cn.min_value AS 최소값, cn.n_zero AS 0레코드수, cn.p_zero AS 0레코드비율, ci.rcol AS 대표속성, "
-				   + "ci.candidate AS 결합키후보, ci.skey AS 대표결합키 "
-				   + "FROM c_info ci, c_numeric cn "
-				   + "WHERE ci.c_name = cn.c_name AND ci.t_name = \'" + tname + "\'";
+	public String showNumeric(String tablename) {
+		String SQL = "SELECT ci.속성명, ci.데이터타입, ci.NULL레코드수, ci.NULL레코드비율, cn.상이수치값, cn.최대값, cn.최소값, cn.ZERO레코드수, cn.ZERO레코드비율, ci.대표속성, ci.결합키후보, ci.대표결합키"
+					+"FROM c_info as ci, c_numeric as cn"
+					+"WHERE ci.속성명 = cn.속성명 AND cn.테이블명 = \'" + tablename + "\'";
 		return SQL;
 	}
 
 	@Override
-	public String showCategory(String tname) {
-		this.tname = tname;
-		String SQL = "SELECT ci.c_name AS 속성명, ci.datatype AS 데이터타입, ci.num_null AS NULL레코드수, ci.p_null AS NULL레코드비율, "
-				   + "cc.distinct_category AS 상이범주값, cc.n_symbol AS 특수문자포함레코드수 , cc.p_symbol AS 특수문자포함레코드비율, "
-				   + "ci.rcol AS 대표속성, ci.candidate AS 결합키후보, ci.skey AS 대표결합키 "
-				   + "FROM c_info ci, c_category cc "
-				   + "WHERE ci.c_name = cc.c_name AND ci.t_name = \'" + tname + "\'";
+	public String showCategory(String tablename) {
+		String SQL = "SELECT ci.속성명, ci.데이터타입, ci.NULL레코드수, ci.NULL레코드비율, cc.상이범주값, cc.특수문자포함레코드수, cc.특수문자포함레코드비율, ci.대표속성, ci.결합키후보, ci.대표결합키"
+					+"FROM c_info as ci, c_category as cc"
+					+"WHERE ci.속성명 = cc.속성명 AND cc.테이블명 = \'" + tablename + "\'";
 		return SQL;
 	}
 
 	public void categorycsv(String address, String filename) {
-		String SQL = "SELECT ci.c_name AS 속성명, ci.datatype AS 데이터타입, ci.num_null AS NULL레코드수, ci.p_null AS NULL레코드비율, "
-				   + "cc.distinct_category AS 상이범주값, cc.n_symbol AS 특수문자포함레코드수 , cc.p_symbol AS 특수문자포함레코드비율, "
-				   + "ci.rcol AS 대표속성, ci.candidate AS 결합키후보, ci.skey AS 대표결합키 "
+		String SQL =  "SELECT ci.속성명, ci.데이터타입, ci.NULL레코드수, ci.NULL레코드비율, cc.상이범주값, cc.특수문자포함레코드수, cc.특수문자포함레코드비율, ci.대표속성, ci.결합키후보, ci.대표결합키"
 				   + "FROM c_info ci, c_category cc "
-				   + "WHERE ci.c_name = cc.c_name AND ci.t_name = \'" + this.tname + "\'"
+				   + "WHERE ci.속성명 = cc.속성명 AND ci.테이블명 = \'" + this.tname + "\'"
 				   +" INTO OUTFILE \'" + address + "/" + filename + ".csv\' "
 				   + "FIELDS TERMINATED BY \',\' "
 				   + "LINES TERMINATED BY \'\\n\'";
@@ -58,14 +50,12 @@ public class SelectResultTable implements SelectResult{
 
 	@Override
 	public void numericcsv(String address, String filename) {
-		String SQL= "SELECT ci.c_name AS 속성명, ci.datatype AS 데이터타입, ci.num_null AS NULL레코드수, ci.p_null AS NULL레코드비율, "
-				   + "cn.distinct_numeric AS 상이수치값, cn.max_value AS 최대값, cn.min_value AS 최소값, cn.n_zero AS 0레코드수, cn.p_zero AS 0레코드비율, ci.rcol AS 대표속성, "
-				   + "ci.candidate AS 결합키후보, ci.skey AS 대표결합키 "
-				   + "FROM c_info ci, c_numeric cn "
-				   + "WHERE ci.c_name = cn.c_name AND ci.t_name = \'" + this.tname + "\'"
-				   +" INTO OUTFILE \'" + address + "/" + filename + ".csv\' "
-				   + "FIELDS TERMINATED BY \',\' "
-				   + "LINES TERMINATED BY \'\\n\'";
+		String SQL= "SELECT ci.속성명, ci.데이터타입, ci.NULL레코드수, ci.NULL레코드비율, cn.상이수치값, cn.최대값, cn.최소값, cn.ZERO레코드수, cn.ZERO레코드비율, ci.대표속성, ci.결합키후보, ci.대표결합키"
+					+"FROM c_info as ci, c_numeric as cn"
+					+"WHERE ci.속성명 = cn.속성명 AND cn.테이블명 = \'" + this.tname + "\'"
+					+" INTO OUTFILE \'" + address + "/" + filename + ".csv\' "
+					+ "FIELDS TERMINATED BY \',\' "
+					+ "LINES TERMINATED BY \'\\n\'";
 		con1 = new DBcon();
 		try{
 			con1.st = con1.con.createStatement();
